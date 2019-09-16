@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import './transaction.dart';
-i
+import 'package:intl/intl.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -40,6 +41,9 @@ class _MyHomePageState extends State<MyHomePage> {
     ),
   ];
 
+  final titleInputController = TextEditingController();
+  final amountInputConroller = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,13 +65,43 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               elevation: 5,
             ),
+            Card(
+              elevation: 5,
+              child: Container(
+                padding: EdgeInsets.all(10),
+                child: Column(
+                  children: <Widget>[
+                    TextField(
+                      decoration: InputDecoration(
+                        labelText: 'Title',
+                      ),
+                      controller: titleInputController,
+                    ),
+                    TextField(
+                      decoration: InputDecoration(
+                        labelText: 'Amount',
+                      ),
+                      controller: amountInputConroller,
+                    ),
+                    FlatButton(
+                      child: Text('Add Transaction'),
+                      textColor: Colors.purple,
+                      onPressed: () {
+                        print(titleInputController.text);
+                        print(amountInputConroller.text);
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: transactions.map((tx) {
                 return Card(
                   child: Row(
                     children: <Widget>[
-                      Container (
+                      Container(
                         margin: EdgeInsets.symmetric(
                           vertical: 10,
                           horizontal: 15,
@@ -80,7 +114,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                         ),
                         child: Text(
-                          tx.amount.toString(),
+                          '\$${tx.amount}',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 20,
@@ -99,7 +133,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             ),
                           ),
                           Text(
-                            tx.date.toIso8601String(),
+                            DateFormat.yMMMd().format(tx.date),
                             style: TextStyle(
                               color: Colors.grey,
                             ),
